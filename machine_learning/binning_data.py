@@ -362,19 +362,19 @@ def plot_bins(bad_rate, samples_num):
     :param samples_num:
     :return:
     """
-    plt.figure(figsize=(15, 15))
+    plt.figure(figsize=(4, 3))
     plt.subplot(111)
     plt.bar(samples_num['bins'], samples_num['sample_num'], label='samples_num', color='#003547')
-    plt.xticks(rotation=360, fontsize=30)
-    plt.yticks(fontsize=30)
-    plt.rc('legend', fontsize=30)
+    plt.xticks(rotation=360, fontsize=10)
+    plt.yticks(fontsize=10)
+    plt.rc('legend', fontsize=10)
     plt.legend(loc='upper left', )
     # 次坐标轴绘制折线图
     plt.twinx()
     plt.plot(bad_rate['bins'], bad_rate['bad_rate'], lw='4', color='#E1523D', label='bad_rate', marker='o')
-    plt.xticks(rotation=360, fontsize=30)
-    plt.yticks(fontsize=30)
-    plt.rc('legend', fontsize=30)
+    plt.xticks(rotation=360, fontsize=10)
+    plt.yticks(fontsize=10)
+    plt.rc('legend', fontsize=10)
     plt.legend(loc='upper right')
     plt.show()
 
@@ -412,7 +412,7 @@ if __name__ == '__main__':
     # equal_span()
 
     # 等频分箱
-    # equal_freq()
+    equal_freq()
 
     # 聚类分箱
     # kmeans_bin()
@@ -421,7 +421,7 @@ if __name__ == '__main__':
     # chi_bins()
 
     # Best-KS分箱
-    KS_bin()
+    #KS_bin()
 
     # 决策树分箱
     # tree_bin()
