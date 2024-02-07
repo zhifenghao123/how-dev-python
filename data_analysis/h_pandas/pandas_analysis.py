@@ -6,6 +6,10 @@ df = pd.DataFrame({'Dept': ['Sales', 'IT', 'Admin', 'Sales', 'Admin'], 'Salary':
 # 将Dept列转换为category类型
 df['Dept'] = df['Dept'].astype('category')
 
+
+# 查看df['Dept']中所有不同的类别值
+print(df['Dept'].unique())
+
 # 使用groupby函数将DataFrame按Dept列分组，并对Salary列进行平均值聚合操作
 grouped = df.groupby(['Dept']).mean()
 print(grouped)
