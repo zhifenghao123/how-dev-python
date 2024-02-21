@@ -45,7 +45,7 @@ def decision_tree_train():
     train = pd.read_csv('./res/decision_tree_train_dataset.csv').fillna(-1)
 
     # 构建训练集
-    X = train.loc[:, 'XINGBIE':'DKLL']
+    X = train.loc[:, '性别':'贷款利率']
     Y = train['label']
 
     # 构造决策树
@@ -76,8 +76,28 @@ def show_decision_tree(clf):
     tree.plot_tree(clf)
     plt.show()
 
+def show_decision_tree_with_graphviz(clf, X):
+    """
+    使用graphviz可视化绘制决策时
+    :param clf:
+    :param X:
+    :return:
+    """
+    import graphviz
+    dot_data = tree.export_graphviz(
+        clf,
+        out_file=None,
+        feature_names=X.columns,
+        class_names=['good', 'bad'],
+        filled=True, rounded=True,
+        special_characters=True)
+    graph = graphviz.Source(dot_data)
+    graph.view()
+
+
 
 if __name__ == '__main__':
     clf, X, Y = decision_tree_train()
     # print_decision_tree(clf, X)
     show_decision_tree(clf)
+    # show_decision_tree_with_graphviz(clf, X)
