@@ -101,3 +101,6 @@ if __name__ == '__main__':
     # print_decision_tree(clf, X)
     show_decision_tree(clf)
     # show_decision_tree_with_graphviz(clf, X)
+
+    result = clf.score(X, Y)
+    print(result)
