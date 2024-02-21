@@ -1,0 +1,47 @@
+数据文档
+背景描述
+UCI German Credit是UCI的德国信用数据集，里面有原数据和数值化后的数据。
+
+German Credit数据是根据个人的银行贷款信息和申请客户贷款逾期发生情况来预测贷款违约倾向的数据集，数据集包含24个维度的，1000条数据。
+
+该数据集将通过一组属性描述的人员分类为良好或不良信用风险。
+数据集将通过一组属性描述的人员分类为良好或不良信用风险。
+有两种格式（全都是数字格式）。还带有成本矩阵。不好的时候将客户分类为好（5），而不是好的时将客户分类为坏（1）
+
+数据说明
+名称	类型	描述
+checking_account_status	string	现有支票帐户的状态（A11：<0 DM，A12：0 <= x <200 DM，A13：> = 200 DM /至少一年的薪水分配，A14：无支票帐户）
+duration	integer D	持续时间（月）
+credit_history	string	A30：未提取任何信用/已全额偿还所有信用额，A31：已偿还该银行的所有信用额，A32：已到期已偿还的现有信用额，A33：过去的还款延迟，A34：关键帐户/其他信用额现有（不在此银行）
+purpose	string	A30：未提取任何信用/已全额偿还所有信用额，A31：已偿还该银行的所有信用额，A32：已到期已偿还的现有信用额，A33：过去的还款延迟，A34：关键帐户/其他信用额现有（不在此银行）
+credit_amount	float
+savings	string	账户/债券储蓄（A61：<100 DM，A62：100 <= x <500 DM，A63：500 <= x <1000 DM，A64：> = 1000 DM，A65：未知/无储蓄账户
+present_employment	string	71：待业，A72：<1年，A73：1 <= x <4年，A74：4 <= x <7年，A75：..> = 7年
+installment_rate	float	分期付款率占可支配收入的百分比
+personal	string	个人婚姻状况和性别（A91：男性：离婚/分居，A92：女性：离婚/分居/已婚，A93：男性：单身，A94：男性：已婚/丧偶，A95：女性：单身）
+other_debtors	string	A101：无，A102：共同申请人，A103：担保人
+present_residence	float	至今居住
+property	string	A121：不动产，A122：如果不是，那么A121：建筑协会储蓄协议/人寿保险，A123：如果不是，则A121 / A122：不是属性6的汽车或其他，A124：未知/没有财产
+age	float	年岁
+other_installment_plans	string	A141：银行，A142：商店，A143：无
+housing	string	A151:租房，A152:自有，A153:免费
+existing_credits	float	该银行现有信贷的数量
+job	string	1:失业/A171 : 非技术人员-非居民，A172:非技术人员-居民，A173:技术人员/官员，A174:管理/个体经营/高度合格的员工/官员
+dependents	integer	承担赡养费的人数
+telephone	string	A191:无，A192:有，登记在客户名下
+foreign_worker	string	A201: 有, A202: 无
+customer_type	integer	预测类别：1 =良好，2 =不良
+数据来源
+https://www.mldata.io/dataset-details/german_credit_data/
+
+问题描述
+分类
+
+执照
+UCI Machine Learning Repository
+
+Professor Dr. Hans Hofmann
+Institut f"ur Statistik und "Okonometrie
+Universit"at Hamburg
+FB Wirtschaftswissenschaften
+Von-Melle-Park 5
