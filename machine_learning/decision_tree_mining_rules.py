@@ -78,7 +78,7 @@ def show_decision_tree(clf):
 
 def show_decision_tree_with_graphviz(clf, X):
     """
-    使用graphviz可视化绘制决策时
+    使用graphviz可视化绘制决策
     :param clf:
     :param X:
     :return:
