@@ -45,7 +45,7 @@ def decision_tree_train():
     train = pd.read_csv('./res/decision_tree_train_dataset.csv').fillna(-1)
 
     # 构建训练集
-    X = train.loc[:, '性别':'贷款利率']
+    X = train.loc[:, 'gender':'loanRate']
     Y = train['label']
 
     # 构造决策树
@@ -98,9 +98,9 @@ def show_decision_tree_with_graphviz(clf, X):
 
 if __name__ == '__main__':
     clf, X, Y = decision_tree_train()
-    # print_decision_tree(clf, X)
+    print_decision_tree(clf, X)
     show_decision_tree(clf)
     # show_decision_tree_with_graphviz(clf, X)
 
-    result = clf.score(X, Y)
-    print(result)
+    #result = clf.score(X, Y)
+    #print(result)
