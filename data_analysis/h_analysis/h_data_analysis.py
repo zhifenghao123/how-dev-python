@@ -164,6 +164,27 @@ def gender_analyze(pd_data):
     print(f'男性逾期比率：{len(man_two) / len(two_state) * 100}%')
     print(f'女性逾期比率：{round((1 - (len(man_two) / len(two_state))) * 100, 2)}%')
 
+def principal_bin_analyze(pd_data):
+    """
+    分箱统计分析
+    :param pd_data:
+    :return:
+    """
+    pd_temp1 = pd_data['贷款金额']
+    print(pd_temp1.describe())
+
+    # 分箱处理
+    # 定义金额区间
+    je_cut = [0, 150, 300, 450, 600, 750, 900, 100000]
+    je_label = ['0-150', '150-300', '300-450', '450-600', '600-750', '750-900', '900以上']  # 给金额区间设置标签
+    pd_data['贷款金额区间'] = pd.cut(pd_data['贷款金额'], bins=je_cut, labels=je_label)
+    print(pd_data)
+
+    Data = pd.pivot_table(pd_data, values=['loan_id'], index=['贷款金额区间'], aggfunc={'loan_id': lambda x: len(x.dropna().unique())}
+                          , fill_value=0).reset_index(drop=False)  # fill_value = 0是用来填充缺失值、空值
+    Data = Data.rename(columns={'loan_id': 'loan_id数'})  # 修改列名
+    print(Data)
+
 
 if __name__ == '__main__':
     pd_data = pd.read_csv("dataset/Loan_payments_data.csv")
@@ -174,6 +195,7 @@ if __name__ == '__main__':
     # education_analyze(pd_data_2)
     # age_analyze(pd_data_2)
     gender_analyze(pd_data_2)
+    principal_bin_analyze(pd_data)
 
 
 
