@@ -23,7 +23,7 @@ if __name__ == "__main__":
     print(sys.argv)
     print(sys.argv[0])
 
-    wordCountFile = './pyspark_example/resources/wordcount.txt'
+    wordCountFile = './resources/wordcount.txt'
     if len(sys.argv) != 2:
         # print("Usage: wordcount <file>", file=sys.stderr)
         # sys.exit(-1)
