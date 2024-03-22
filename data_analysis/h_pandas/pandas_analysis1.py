@@ -44,6 +44,47 @@ def dynamic_construct_dataframe():
     # 打印DataFrame查看内容
     print(df)
 
+def dynamic_filter_dataframe():
+    """
+    动态筛选 DataFrame
+    :return:
+    """
+    import pandas as pd
+
+    # 假设这是你的DataFrame
+    df = pd.DataFrame({
+        'cmid': [1, 2, 3, 4, 5],
+        'col1': ['A', 'B', 'A', 'C', 'A'],
+        'col2': [10, 20, 30, 40, 50],
+        'col3': ['X', 'Y', 'Z', 'X', 'Y']
+    })
+
+    # 这是你的条件集合
+    conditions = [
+        ('col1', ['A', 'C']),
+        ('col2', [20, 40]),
+        ('col3', ['X'])
+    ]
+
+    # 初始化一个空掩码
+    mask = None
+
+    # 遍历每个条件，累积掩码
+    for col_name, values in conditions:
+        condition_mask = df[col_name].isin(values)
+        if mask is None:
+            mask = condition_mask
+        else:
+            mask &= condition_mask
+
+            # 使用累积的掩码来筛选出满足所有条件的cmid
+    selected_cmids = df.loc[mask, 'cmid'].tolist()
+
+    # 打印满足条件的cmid集合
+    print(selected_cmids)
 
 if __name__ == '__main__':
-    dynamic_construct_dataframe()
+
+    # dynamic_construct_dataframe()
+
+    dynamic_filter_dataframe()
