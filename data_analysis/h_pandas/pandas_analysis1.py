@@ -137,8 +137,64 @@ def dynamic_filter_dataframe():
     # 打印满足条件的cmid集合
     print(selected_cmids)
 
+def merge_dataframe():
+    import pandas as pd
+    import numpy as np
+
+    # 假设特征列数为feature_num，指标列数为indicator_num
+    feature_num = 3  # 特征列数
+    indicator_num = 2  # 指标列数
+
+    # 构造df1和df2
+    np.random.seed(0)  # 设置随机种子以便结果可复现
+
+    # 特征列
+    features = [f'feature{i}' for i in range(1, feature_num + 1)]
+    # 指标列
+    indicators = [f'biz_indicator{i}' for i in range(1, indicator_num + 1)]
+
+    # 构造df1
+    df1_data = {col: np.random.rand(10) for col in features + indicators}
+    df1 = pd.DataFrame(df1_data)
+
+    # 构造df2
+    df2_data = {col: np.random.rand(10) for col in features + indicators}
+    df2 = pd.DataFrame(df2_data)
+
+    # 合并df1和df2
+    merged_df = pd.concat([df1, df2], ignore_index=True)
+
+    # 提取特征列
+    feature_cols = features
+
+    # 提取指标列
+    indicator_cols = indicators
+
+    # 给指标列添加前缀，区分来自df1还是df2
+    merged_df = merged_df.join(df1[indicator_cols].add_prefix('df1_'), on=merged_df.index)
+    merged_df = merged_df.join(df2[indicator_cols].add_prefix('df2_'), on=merged_df.index)
+
+    # 删除原始指标列，因为它们现在已经被重命名了
+    merged_df.drop(indicator_cols, axis=1, inplace=True)
+
+    # 计算指标值的diff并添加到DataFrame中
+    diff_cols = [f'df1_df2_{col}' for col in indicator_cols]
+    for col, diff_col in zip(indicator_cols, diff_cols):
+        df1_col = f'df1_{col}'
+        df2_col = f'df2_{col}'
+        merged_df[diff_col] = merged_df[df1_col] - merged_df[df2_col]
+
+        # 重新排序列，保持特征列顺序不变，然后是指标列，最后是diff列
+    all_cols = feature_cols + [f'df1_{col}' for col in indicator_cols] + [f'df2_{col}' for col in
+                                                                          indicator_cols] + diff_cols
+    merged_df = merged_df[all_cols]
+
+    # 打印合并后的DataFrame
+    print(merged_df)
+
 if __name__ == '__main__':
 
     # dynamic_construct_dataframe()
-    dynamic_construct_dataframe2()
+    #dynamic_construct_dataframe2()
     #dynamic_filter_dataframe()
+    merge_dataframe()
