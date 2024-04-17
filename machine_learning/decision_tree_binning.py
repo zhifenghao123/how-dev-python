@@ -19,7 +19,7 @@ def read_data_set(care_X_feature_name):
     # data_x, data_y = make_classification(n_samples=10000, n_classes=4, n_features=10, n_informative=8, random_state=0)
     return data_X, data_Y
 
-def read_data_set2(care_X_feature_name):
+def read_data_set2(binning_feature):
     """
     读取数据集
     :return:
@@ -35,7 +35,7 @@ def read_data_set2(care_X_feature_name):
         'label': np.random.randint(0, 2, size=100)
     }
     df_data = pd.DataFrame(data)
-    data_X = df_data.loc[:, care_X_feature_name:care_X_feature_name]
+    data_X = df_data.loc[:, binning_feature:binning_feature]
     data_Y = df_data['label']
     # data_x, data_y = make_classification(n_samples=10000, n_classes=4, n_features=10, n_informative=8, random_state=0)
     return data_X, data_Y
@@ -67,13 +67,12 @@ def show_decision_tree(decision_tree):
     plt.show()
 
 
-def decision_tree_binning(decision_tree, max_bin, x_value, y_value):
+def decision_tree_binning(decision_tree, x_value, binning_feature):
     """
     根据决策树进行分箱
     :param decision_tree:
     :param max_bin:
     :param x_value:
-    :param y_value:
     :return:
     """
     n_nodes = decision_tree.tree_.node_count  # 决策树节点
@@ -93,31 +92,38 @@ def decision_tree_binning(decision_tree, max_bin, x_value, y_value):
 
     # max_x = x_value.max() + 0.1  # +0.1是为了考虑后续groupby操作时，能包含特征最大值的样本
     boundary = [min_x] + boundary + [max_x]
-    return boundary
 
+    print("boundary is:" + str(boundary))
 
-def binning_result_view(data_X, bin_result, care_X_feature_name):
-    """
-    分箱结果展示
-    :param data_X:
-    :param bin_result:
-    :return:
-    """
-    bin_value = pd.cut(data_X[care_X_feature_name], bins=bin_result)  # 分箱的结果
+    # 初始化分箱结果的列表
+    bin_results = []
+    bin_value = pd.cut(data_X[binning_feature], bins=boundary)  # 分箱的结果
     # print(bin_value)
     # 打印出每个分箱及其包含的数据
     for bin_label, group in data_X.groupby(bin_value):
-        print(f"分箱: {bin_label}, 分箱个数: {len(group[care_X_feature_name].tolist())}")
-        # print("数据:", group['personalMonthlyDepositAmount'].tolist())
-        print()  # 打印一个空行以便于区分不同的分箱
+        bin_left = bin_label.left
+        bin_right = bin_label.right
+        bin_result = {
+            "bin_label": f"({bin_left},{bin_right}]",
+            "bin_data_set": group[binning_feature].tolist(),
+            "bin_data_set_num": len(group[binning_feature].tolist())
+        }
 
+        bin_results.append(bin_result)
+        print(bin_result)
+        # print("---")
+        # print(f"分箱: {bin_label}, 分箱个数: {len(group[binning_feature].tolist())}")
+        # print("数据:", group[binning_feature].tolist())
+        # print()
+
+    return bin_results
 
 if __name__ == '__main__':
     max_bin = 4
     # care_X_feature_name = 'personalMonthlyDepositAmount'
-    care_X_feature_name = 'careerDesc'
-    data_X, data_Y = read_data_set2(care_X_feature_name)
+    # binning_feature = 'careerStr'
+    binning_feature = 'career'
+    data_X, data_Y = read_data_set2(binning_feature)
     decision_tree = decision_tree_tranning(data_X, data_Y, max_bin)
     show_decision_tree(decision_tree)
-    bin_result = decision_tree_binning(decision_tree, max_bin, data_X, data_Y)
-    binning_result_view(data_X, bin_result, care_X_feature_name)
+    bin_result = decision_tree_binning(decision_tree, data_X, binning_feature)
