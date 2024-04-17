@@ -6,7 +6,7 @@ from sklearn import tree
 from sklearn.datasets import make_classification
 
 
-def read_data_set():
+def read_data_set(care_X_feature_name):
     """
     读取数据集
     :return:
@@ -14,12 +14,12 @@ def read_data_set():
     # data_x, data_y = make_classification(n_samples=10000, n_classes=4, n_features=10, n_informative=8, random_state=0)
 
     df_data = pd.read_csv('res/decision_tree_train_dataset.csv')
-    data_X = df_data.loc[:, 'personalMonthlyDepositAmount':'personalMonthlyDepositAmount']
+    data_X = df_data.loc[:, care_X_feature_name:care_X_feature_name]
     data_Y = df_data['label']
     # data_x, data_y = make_classification(n_samples=10000, n_classes=4, n_features=10, n_informative=8, random_state=0)
     return data_X, data_Y
 
-def read_data_set2():
+def read_data_set2(care_X_feature_name):
     """
     读取数据集
     :return:
@@ -28,12 +28,14 @@ def read_data_set2():
         'id': np.arange(1, 101),
         'gender': np.random.choice(['Male', 'Female'], size=100),
         'age': np.random.randint(0, 101, size=100),
-        'career': np.random.choice(['教师', '医生', '警察', '软件开发工程师', '会计', '公务员', '工人'], size=100),
+        'career': np.random.choice([1, 2, 3, 4, 5, 6, 7], size=100),
+        'careerStr': np.random.choice(['1', '2', '3', '4', '5', '6', '7'], size=100),
+        'careerDesc': np.random.choice(['教师', '医生', '警察', '软件开发工程师', '会计', '公务员', '工人'], size=100),
         'incomeAmt': np.random.uniform(100, 100000, size=100),
         'label': np.random.randint(0, 2, size=100)
     }
     df_data = pd.DataFrame(data)
-    data_X = df_data.loc[:, 'career':'career']
+    data_X = df_data.loc[:, care_X_feature_name:care_X_feature_name]
     data_Y = df_data['label']
     # data_x, data_y = make_classification(n_samples=10000, n_classes=4, n_features=10, n_informative=8, random_state=0)
     return data_X, data_Y
@@ -94,26 +96,28 @@ def decision_tree_binning(decision_tree, max_bin, x_value, y_value):
     return boundary
 
 
-def binning_result_view(data_X, bin_result):
+def binning_result_view(data_X, bin_result, care_X_feature_name):
     """
     分箱结果展示
     :param data_X:
     :param bin_result:
     :return:
     """
-    bin_value = pd.cut(data_X['personalMonthlyDepositAmount'], bins=bin_result)  # 分箱的结果
+    bin_value = pd.cut(data_X[care_X_feature_name], bins=bin_result)  # 分箱的结果
     # print(bin_value)
     # 打印出每个分箱及其包含的数据
     for bin_label, group in data_X.groupby(bin_value):
-        print(f"分箱: {bin_label}, 分箱个数: {len(group['personalMonthlyDepositAmount'].tolist())}")
+        print(f"分箱: {bin_label}, 分箱个数: {len(group[care_X_feature_name].tolist())}")
         # print("数据:", group['personalMonthlyDepositAmount'].tolist())
         print()  # 打印一个空行以便于区分不同的分箱
 
 
 if __name__ == '__main__':
     max_bin = 4
-    data_X, data_Y = read_data_set()
+    # care_X_feature_name = 'personalMonthlyDepositAmount'
+    care_X_feature_name = 'careerDesc'
+    data_X, data_Y = read_data_set2(care_X_feature_name)
     decision_tree = decision_tree_tranning(data_X, data_Y, max_bin)
     show_decision_tree(decision_tree)
     bin_result = decision_tree_binning(decision_tree, max_bin, data_X, data_Y)
-    binning_result_view(data_X, bin_result)
+    binning_result_view(data_X, bin_result, care_X_feature_name)
