@@ -6,7 +6,7 @@ from sklearn import tree
 from sklearn.datasets import make_classification
 
 
-def read_data_set(care_X_feature_name):
+def read_data_set():
     """
     读取数据集
     :return:
@@ -14,12 +14,16 @@ def read_data_set(care_X_feature_name):
     # data_x, data_y = make_classification(n_samples=10000, n_classes=4, n_features=10, n_informative=8, random_state=0)
 
     df_data = pd.read_csv('res/decision_tree_train_dataset.csv')
-    data_X = df_data.loc[:, care_X_feature_name:care_X_feature_name]
-    data_Y = df_data['label']
+    # 获取列的数量
+    column_cnt = df_data.shape[1]
+    # 获取倒数第二列之前的所有数据
+    data_X = df_data.iloc[:, :column_cnt - 2]
+    data_Y = df_data.iloc[:, column_cnt-1]
+
     # data_x, data_y = make_classification(n_samples=10000, n_classes=4, n_features=10, n_informative=8, random_state=0)
     return data_X, data_Y
 
-def read_data_set2(binning_feature):
+def read_data_set2():
     """
     读取数据集
     :return:
@@ -35,9 +39,15 @@ def read_data_set2(binning_feature):
         'label': np.random.randint(0, 2, size=100)
     }
     df_data = pd.DataFrame(data)
-    data_X = df_data.loc[:, binning_feature:binning_feature]
+    # 获取列的数量
+    column_cnt = df_data.shape[1]
+
+    # 获取倒数第二列之前的所有数据
+    data_X = df_data.iloc[:, :column_cnt-2]
+
+    #data_Y = df_data.iloc[:, column_cnt-1]
     data_Y = df_data['label']
-    # data_x, data_y = make_classification(n_samples=10000, n_classes=4, n_features=10, n_informative=8, random_state=0)
+
     return data_X, data_Y
 
 
@@ -120,10 +130,12 @@ def decision_tree_binning(decision_tree, x_value, binning_feature):
 
 if __name__ == '__main__':
     max_bin = 4
-    # care_X_feature_name = 'personalMonthlyDepositAmount'
+    #binning_feature = 'personalMonthlyDepositAmount'
     # binning_feature = 'careerStr'
     binning_feature = 'career'
-    data_X, data_Y = read_data_set2(binning_feature)
-    decision_tree = decision_tree_tranning(data_X, data_Y, max_bin)
+    data_X, data_Y = read_data_set2()
+    # data_x = data_X[binning_feature]
+    data_x = data_X.loc[:, binning_feature:binning_feature]
+    decision_tree = decision_tree_tranning(data_x, data_Y, max_bin)
     show_decision_tree(decision_tree)
-    bin_result = decision_tree_binning(decision_tree, data_X, binning_feature)
+    bin_result = decision_tree_binning(decision_tree, data_x, binning_feature)
