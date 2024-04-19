@@ -101,22 +101,19 @@ def dynamic_construct_dataframe2():
     # 显示最终的DataFrame
     print(df)
 
-def dynamic_construct_dataframe3():
-    # 假设的m和n的值
-    m = 3
-    n = 2
+def dynamic_construct_dataframe3(feature_num, indicator_num):
 
     # 初始化一个空的DataFrame
     df = pd.DataFrame()
 
     # 构造特征列
-    for i in range(1, m + 1):
+    for i in range(1, feature_num + 1):
         df[f'feature_{i}_name'] = [f'Feature{i}_Name'] * len(df)  # 假设每个特征名都是一样的
         df[f'feature_{i}_val'] = [f'Feature{i}_Value'] * len(df)  # 假设每个特征值都是一样的
         # 如果需要不同的值，可以用其他逻辑生成，例如随机数等
 
     # 构造指标列
-    for i in range(1, n + 1):
+    for i in range(1, indicator_num + 1):
         df[f'indicator{i}'] = [f'Indicator{i}'] * len(df)  # 假设每个指标值都是一样的
         # 如果需要不同的值，可以用其他逻辑生成，例如随机数等
 
@@ -129,7 +126,7 @@ def dynamic_construct_dataframe3():
     num_rows = 10
 
     # 构造特征列
-    for i in range(1, m + 1):
+    for i in range(1, feature_num + 1):
         if i == 1:
             # 对于feature_1_name，随机选择三个码值中的一个
             df[f'feature_{i}_name'] = np.random.choice(feature_1_names, size=num_rows)
@@ -144,7 +141,7 @@ def dynamic_construct_dataframe3():
         df[f'feature_{i}_val'] = np.random.rand(num_rows)
 
         # 构造指标列，这里也使用随机数作为示例
-    for i in range(1, n + 1):
+    for i in range(1, indicator_num + 1):
         df[f'indicator{i}'] = np.random.rand(num_rows)
 
         # 显示最终的DataFrame
@@ -245,9 +242,13 @@ def merge_dataframe():
     print(merged_df)
 
 if __name__ == '__main__':
-
+    feature_num = 3
+    indicator_num = 2
     # dynamic_construct_dataframe()
     # dynamic_construct_dataframe2()
-    dynamic_construct_dataframe3()
+    df_data1 = dynamic_construct_dataframe3(feature_num, indicator_num)
+    df_data2 = dynamic_construct_dataframe3(feature_num, indicator_num)
+
+
     #dynamic_filter_dataframe()
     #merge_dataframe()
