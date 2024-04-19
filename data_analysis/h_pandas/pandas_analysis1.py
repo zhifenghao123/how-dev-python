@@ -241,6 +241,31 @@ def merge_dataframe():
     # 打印合并后的DataFrame
     print(merged_df)
 
+def merge_dataframe_new(df_data1, df_data2, feature_num):
+    # 获取特征列名
+    feature_columns = df_data1.columns[:2 * feature_num]
+
+    # 获取指标列名，即除了特征列之外的所有列
+    indicator_columns = df_data1.columns[2 * feature_num:]
+    # 创建一个空的字典，用于存储新DataFrame的列
+    new_data = {}
+    for feature_column in feature_columns:
+        new_data[feature_column] = df_data1[feature_column]
+
+    # 遍历指标列，计算差值，并将新列名和新值添加到新字典中
+    for indicator_column in indicator_columns:
+        new_data[f'df1_{indicator_column}'] = df_data1[indicator_column]
+        new_data[f'df2_{indicator_column}'] = df_data2[indicator_column]
+        indicator_diff_column = f'df1_df2_{indicator_column}'
+        temp1 = df_data1[indicator_column]
+        temp2 = df_data2[indicator_column]
+        temp3 = temp1 - temp2
+        new_data[indicator_diff_column] = df_data1[indicator_column] - df_data2[indicator_column]  # 计算差值
+
+    merged_df = pd.DataFrame(new_data)
+
+    return merged_df
+
 if __name__ == '__main__':
     feature_num = 3
     indicator_num = 2
@@ -248,6 +273,8 @@ if __name__ == '__main__':
     # dynamic_construct_dataframe2()
     df_data1 = dynamic_construct_dataframe3(feature_num, indicator_num)
     df_data2 = dynamic_construct_dataframe3(feature_num, indicator_num)
+    merged_df = merge_dataframe_new(df_data1, df_data2, feature_num)
+    print(merged_df)
 
 
     #dynamic_filter_dataframe()
