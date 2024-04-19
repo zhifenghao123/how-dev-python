@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def dynamic_construct_dataframe():
     """
@@ -100,6 +101,57 @@ def dynamic_construct_dataframe2():
     # 显示最终的DataFrame
     print(df)
 
+def dynamic_construct_dataframe3():
+    # 假设的m和n的值
+    m = 3
+    n = 2
+
+    # 初始化一个空的DataFrame
+    df = pd.DataFrame()
+
+    # 构造特征列
+    for i in range(1, m + 1):
+        df[f'feature_{i}_name'] = [f'Feature{i}_Name'] * len(df)  # 假设每个特征名都是一样的
+        df[f'feature_{i}_val'] = [f'Feature{i}_Value'] * len(df)  # 假设每个特征值都是一样的
+        # 如果需要不同的值，可以用其他逻辑生成，例如随机数等
+
+    # 构造指标列
+    for i in range(1, n + 1):
+        df[f'indicator{i}'] = [f'Indicator{i}'] * len(df)  # 假设每个指标值都是一样的
+        # 如果需要不同的值，可以用其他逻辑生成，例如随机数等
+
+    # 定义特征名的码值列表
+    feature_1_names = ['Feature1_NameA', 'Feature1_NameB', 'Feature1_NameC']
+    feature_2_names = ['Feature2_NameD', 'Feature2_NameE']
+    feature_3_names = ['Feature3_NameF', 'Feature3_NameG', 'Feature3_NameH']
+
+    # 假设DataFrame的行数
+    num_rows = 10
+
+    # 构造特征列
+    for i in range(1, m + 1):
+        if i == 1:
+            # 对于feature_1_name，随机选择三个码值中的一个
+            df[f'feature_{i}_name'] = np.random.choice(feature_1_names, size=num_rows)
+        elif i == 2:
+            # 对于feature_2_name，随机选择两个码值中的一个
+            df[f'feature_{i}_name'] = np.random.choice(feature_2_names, size=num_rows)
+        else:
+            # 对于feature_3_name，随机选择三个码值中的一个
+            df[f'feature_{i}_name'] = np.random.choice(feature_3_names, size=num_rows)
+
+            # 生成不同的特征值，这里使用随机数作为示例
+        df[f'feature_{i}_val'] = np.random.rand(num_rows)
+
+        # 构造指标列，这里也使用随机数作为示例
+    for i in range(1, n + 1):
+        df[f'indicator{i}'] = np.random.rand(num_rows)
+
+        # 显示最终的DataFrame
+    print(df)
+    return df
+
+
 def dynamic_filter_dataframe():
     """
     动态筛选 DataFrame
@@ -195,6 +247,7 @@ def merge_dataframe():
 if __name__ == '__main__':
 
     # dynamic_construct_dataframe()
-    #dynamic_construct_dataframe2()
+    # dynamic_construct_dataframe2()
+    dynamic_construct_dataframe3()
     #dynamic_filter_dataframe()
-    merge_dataframe()
+    #merge_dataframe()
