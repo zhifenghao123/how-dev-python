@@ -42,7 +42,7 @@ def print_decision_tree_help():
 def decision_tree_train():
     # 显示所有的列
     pd.set_option('display.max_columns', None)
-    train = pd.read_csv('./res/decision_tree_train_dataset.csv').fillna(-1)
+    train = pd.read_csv('res/decision_tree_train_dataset.csv').fillna(-1)
 
     # 构建训练集
     X = train.loc[:, 'gender':'loanRate']
