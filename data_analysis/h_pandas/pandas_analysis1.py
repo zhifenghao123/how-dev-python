@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def dynamic_construct_dataframe():
     """
@@ -100,6 +101,54 @@ def dynamic_construct_dataframe2():
     # 显示最终的DataFrame
     print(df)
 
+def dynamic_construct_dataframe3(feature_num, indicator_num):
+
+    # 初始化一个空的DataFrame
+    df = pd.DataFrame()
+
+    # 构造特征列
+    for i in range(1, feature_num + 1):
+        df[f'feature_{i}_name'] = [f'Feature{i}_Name'] * len(df)  # 假设每个特征名都是一样的
+        df[f'feature_{i}_val'] = [f'Feature{i}_Value'] * len(df)  # 假设每个特征值都是一样的
+        # 如果需要不同的值，可以用其他逻辑生成，例如随机数等
+
+    # 构造指标列
+    for i in range(1, indicator_num + 1):
+        df[f'indicator{i}'] = [f'Indicator{i}'] * len(df)  # 假设每个指标值都是一样的
+        # 如果需要不同的值，可以用其他逻辑生成，例如随机数等
+
+    # 定义特征名的码值列表
+    feature_1_names = ['Feature1_NameA', 'Feature1_NameB', 'Feature1_NameC']
+    feature_2_names = ['Feature2_NameD', 'Feature2_NameE']
+    feature_3_names = ['Feature3_NameF', 'Feature3_NameG', 'Feature3_NameH']
+
+    # 假设DataFrame的行数
+    num_rows = 10
+
+    # 构造特征列
+    for i in range(1, feature_num + 1):
+        if i == 1:
+            # 对于feature_1_name，随机选择三个码值中的一个
+            df[f'feature_{i}_name'] = np.random.choice(feature_1_names, size=num_rows)
+        elif i == 2:
+            # 对于feature_2_name，随机选择两个码值中的一个
+            df[f'feature_{i}_name'] = np.random.choice(feature_2_names, size=num_rows)
+        else:
+            # 对于feature_3_name，随机选择三个码值中的一个
+            df[f'feature_{i}_name'] = np.random.choice(feature_3_names, size=num_rows)
+
+            # 生成不同的特征值，这里使用随机数作为示例
+        df[f'feature_{i}_val'] = np.random.rand(num_rows)
+
+        # 构造指标列，这里也使用随机数作为示例
+    for i in range(1, indicator_num + 1):
+        df[f'indicator{i}'] = np.random.rand(num_rows)
+
+        # 显示最终的DataFrame
+    print(df)
+    return df
+
+
 def dynamic_filter_dataframe():
     """
     动态筛选 DataFrame
@@ -192,9 +241,41 @@ def merge_dataframe():
     # 打印合并后的DataFrame
     print(merged_df)
 
-if __name__ == '__main__':
+def merge_dataframe_new(df_data1, df_data2, feature_num):
+    # 获取特征列名
+    feature_columns = df_data1.columns[:2 * feature_num]
 
+    # 获取指标列名，即除了特征列之外的所有列
+    indicator_columns = df_data1.columns[2 * feature_num:]
+    # 创建一个空的字典，用于存储新DataFrame的列
+    new_data = {}
+    for feature_column in feature_columns:
+        new_data[feature_column] = df_data1[feature_column]
+
+    # 遍历指标列，计算差值，并将新列名和新值添加到新字典中
+    for indicator_column in indicator_columns:
+        new_data[f'df1_{indicator_column}'] = df_data1[indicator_column]
+        new_data[f'df2_{indicator_column}'] = df_data2[indicator_column]
+        indicator_diff_column = f'df1_df2_{indicator_column}'
+        temp1 = df_data1[indicator_column]
+        temp2 = df_data2[indicator_column]
+        temp3 = temp1 - temp2
+        new_data[indicator_diff_column] = df_data1[indicator_column] - df_data2[indicator_column]  # 计算差值
+
+    merged_df = pd.DataFrame(new_data)
+
+    return merged_df
+
+if __name__ == '__main__':
+    feature_num = 3
+    indicator_num = 2
     # dynamic_construct_dataframe()
-    #dynamic_construct_dataframe2()
+    # dynamic_construct_dataframe2()
+    df_data1 = dynamic_construct_dataframe3(feature_num, indicator_num)
+    df_data2 = dynamic_construct_dataframe3(feature_num, indicator_num)
+    merged_df = merge_dataframe_new(df_data1, df_data2, feature_num)
+    print(merged_df)
+
+
     #dynamic_filter_dataframe()
-    merge_dataframe()
+    #merge_dataframe()
