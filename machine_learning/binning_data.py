@@ -45,7 +45,7 @@ def equal_span():
     等距分箱就是按照特征的取值进行排序后切分成多个区间，并且每个区间的大小是一样的，样本按照其特征的取值归类到不同的区间里。
     :return:
     """
-    data = pd.read_csv("res/germancredit.csv")
+    data = pd.read_csv("./res/germancredit.csv")
     data['creditability'] = data['creditability'].apply(lambda x: 1 if x == 'bad' else 0)
     # 等距分成5个箱
     df = pd.cut(data['duration'], bins=5).reset_index() \
@@ -71,7 +71,7 @@ def equal_freq():
     等频分箱是在划分区间时考虑各个区间内的样本数，保障每个区间内的样本占比大致相同，比如分成5个箱，则每箱的样本数要接近总样本数的20%，这时每个区间的距离不一定是一样的。
     :return:
     """
-    data = pd.read_csv("res/germancredit.csv")
+    data = pd.read_csv("./res/germancredit.csv")
     data['creditability'] = data['creditability'].apply(lambda x: 1 if x == 'bad' else 0)
 
     df = pd.qcut(data['duration'], q=5, duplicates='drop').reset_index() \
@@ -101,7 +101,7 @@ def kmeans_bin():
     下面的代码使用的第二种方式。
     :return:
     """
-    data = pd.read_csv("res/germancredit.csv")
+    data = pd.read_csv("./res/germancredit.csv")
     data['creditability'] = data['creditability'].apply(lambda x: 1 if x == 'bad' else 0)
     kmodel = KMeans(n_clusters=5, random_state=0)
     kmodel.fit(X=data['duration'].values.reshape([len(data), 1]))
@@ -160,7 +160,7 @@ def chi_bins():
     （4）重复2、3直到满足终止条件（计算的卡方值均大于某一阈值或达到预设的分箱数）
     :return:
     """
-    data = pd.read_csv("res/germancredit.csv")
+    data = pd.read_csv("./res/germancredit.csv")
     data['creditability'] = data['creditability'].apply(lambda x: 1 if x == 'bad' else 0)
     bins = 5
     init_bins = data['duration'].unique()
@@ -254,7 +254,7 @@ def KS_bin():
 
     :return:
     """
-    data = pd.read_csv("res/germancredit.csv")
+    data = pd.read_csv("./res/germancredit.csv")
     data['creditability'] = data['creditability'].apply(lambda x: 1 if x == 'bad' else 0)
     bins = 5
     df = data[['duration', 'creditability']] \
@@ -312,7 +312,7 @@ def tree_bin():
     对于分类问题，其最终的类别就是该叶子节点中训练样本的类别的众数。由我们生成的决策最终得到的划分阈值是[8.5, 15.5, 19.0, 34.5, 43.5]。
     :return:
     """
-    data = pd.read_csv("res/germancredit.csv")
+    data = pd.read_csv("./res/germancredit.csv")
     data['creditability'] = data['creditability'].apply(lambda x: 1 if x == 'bad' else 0)
     df = data[['duration', 'creditability']] \
         .rename(columns={'creditability': 'target', 'duration': 'bins'})
