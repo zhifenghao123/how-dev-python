@@ -1,0 +1,25 @@
+{
+  "MYSQL_CFG": {
+    "host": "127.0.0.1",
+    "port": 3306,
+    "user": "root",
+    "password": "<PASSWORD>",
+    "database": "how_dev_python"
+  },
+  "INFLUX_DB_CFG": {
+    "host": "127.0.0.1",
+    "port": 8086,
+    "user": "root",
+    "password": "<PASSWORD>",
+    "database": "how_dev_python"
+  },
+  "NOTIFY_CFG": {
+    "NOTIFY_URL": "http://127.0.0.1:8000/notify/",
+    "NOTIFY_TOKEN": "<PASSWORD>",
+    "NOTIFIER_LIST": [
+      "hhhhhh",
+      "aaaaaa",
+      "oooooo"
+    ]
+  }
+}
