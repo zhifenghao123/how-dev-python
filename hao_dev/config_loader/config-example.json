@@ -20,6 +20,14 @@
       "hhhhhh",
       "aaaaaa",
       "oooooo"
-    ]
+    ],
+    "EXTRA_INFO": {
+      "extra_info_1": "extra_info_1",
+      "extra_info_2": "extra_info_2"
+    },
+    "EXTRA_INFO2": {
+      "1": "extra_info_1",
+      "2": "extra_info_2"
+    }
   }
 }
