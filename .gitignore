@@ -130,3 +130,6 @@ dmypy.json
 
 
 .idea
+
+# 特定的目录文件忽略
+data_analysis/h_common/res/temp/*
